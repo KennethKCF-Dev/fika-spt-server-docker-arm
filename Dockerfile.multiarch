@@ -3,7 +3,7 @@
 # - ARM64: Compiles from source (necessary for ARM support)
 
 # Stage 1: Download pre-compiled binaries for AMD64 OR build from source for ARM64
-FROM mcr.microsoft.com/dotnet/sdk:9.0-bookworm-slim AS builder
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS builder
 
 ARG SPT_VERSION=4.0.13-40087-2891fd4
 ARG TARGETARCH
@@ -68,22 +68,27 @@ RUN if [ "$TARGETARCH" = "arm64" ]; then \
             -p:IsPublish=true \
             -p:LangVersion=preview && \
         echo "Build completed, checking output..." && \
-        find SPTarkov.Server/bin -type d -name "publish" && \
+        PUBLISH_DIR=$(find SPTarkov.Server/bin -type d -name "publish" | head -1) && \
+        echo "Publish directory: ${PUBLISH_DIR}" && \
+        mv "${PUBLISH_DIR}/SPT.Server" "${PUBLISH_DIR}/SPT.Server.Linux" && \
         cd ..; \
     fi
 
-# Step 4: Move files to /opt/build
+# Step 4: Move files to /opt/build/SPT
+# entrypoint.sh's install_spt() does `cp -r $build_dir/* $mounted_dir`, expecting
+# the result to land at $mounted_dir/SPT (spt_dir). So /opt/build must contain a
+# single nested "SPT" directory here, not a flat file listing.
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
         echo "=== AMD64: Moving extracted files ===" && \
-        mkdir -p /opt/build && \
-        mv SPT/* /opt/build/; \
+        mkdir -p /opt/build/SPT && \
+        mv SPT/* /opt/build/SPT/; \
     else \
         echo "=== ARM64: Moving compiled files ===" && \
-        mkdir -p /opt/build && \
+        mkdir -p /opt/build/SPT && \
         PUBLISH_DIR=$(find spt/SPTarkov.Server/bin -type d -name "publish" | head -1) && \
         echo "Found publish directory: ${PUBLISH_DIR}" && \
         rm -f ${PUBLISH_DIR}/*.pdb && \
-        mv ${PUBLISH_DIR}/* /opt/build/; \
+        mv ${PUBLISH_DIR}/* /opt/build/SPT/; \
     fi
 
 # Step 5: Cleanup
@@ -96,7 +101,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     fi
 
 # Stage 2: Runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-bookworm-slim
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble
 
 RUN apt update && apt install -y --no-install-recommends \
     curl \
