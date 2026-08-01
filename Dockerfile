@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble
+FROM mcr.microsoft.com/dotnet/aspnet:9.0-bookworm-slim
 
 RUN apt update && apt install -y --no-install-recommends \
     curl \
