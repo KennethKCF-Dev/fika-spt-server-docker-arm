@@ -86,7 +86,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           build-args: |
             SPT_VERSION=${{ vars.SPT_VERSION || '4.0.13-40087-2891fd4' }}
-            FIKA_VERSION=${{ vars.FIKA_VERSION || '2.3.2' }}
+            FIKA_VERSION=${{ vars.FIKA_VERSION || '2.3.5' }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
