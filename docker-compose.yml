@@ -9,7 +9,7 @@ services:
       - GID=1000
       # FIKA_MODE controls Fika installation and updates
       # Options: disabled (no Fika), install (install and validate), auto-update (auto-update on mismatch), custom (skip validation)
-      - FIKA_MODE=auto-update
+      - FIKA_MODE=install
       # If you want the container to update SPT automatically if it detects the SPT server version does not match expected version, set this to true
       - AUTO_UPDATE_SPT=true
       # If you don't want the container to change the file ownership of your server files, set this to false
