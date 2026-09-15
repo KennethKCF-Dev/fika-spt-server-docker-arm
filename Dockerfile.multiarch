@@ -3,9 +3,9 @@
 # - ARM64: Compiles from source (necessary for ARM support)
 
 # Stage 1: Download pre-compiled binaries for AMD64 OR build from source for ARM64
-FROM mcr.microsoft.com/dotnet/sdk:9.0-bookworm-slim AS builder
+FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS builder
 
-ARG SPT_VERSION=4.0.13-40087-2891fd4
+ARG SPT_VERSION=4.1.5-40743-7d7add5
 ARG TARGETARCH
 ARG SPT_BUILD_TYPE=RELEASE
 ARG SPT_BUILD_CONFIG=Release
@@ -25,13 +25,13 @@ RUN apt-get update && \
 RUN if [ "$TARGETARCH" = "amd64" ]; then \
         echo "=== AMD64: Downloading pre-compiled binaries ===" && \
         echo "Downloading SPT-${SPT_VERSION}.7z" && \
-        curl -fSL "https://spt-releases.modd.in/SPT-${SPT_VERSION}.7z" -o spt.7z && \
+        curl -fSL "https://mirror.sp-tushonka.com/builds/SPT-${SPT_VERSION}.7z" -o spt.7z && \
         ls -lh spt.7z; \
     else \
         echo "=== ARM64: Cloning source repository ===" && \
         SPT_VERSION_NUM=$(echo ${SPT_VERSION} | cut -d'-' -f1) && \
         echo "Cloning branch: ${SPT_VERSION_NUM}" && \
-        git clone --depth 1 --branch ${SPT_VERSION_NUM} https://github.com/sp-tarkov/server-csharp.git spt && \
+        git clone --depth 1 --branch ${SPT_VERSION_NUM} https://github.com/SP-Tushonka/server-csharp.git spt && \
         ls -la spt/; \
     fi
 
@@ -101,7 +101,7 @@ RUN if [ "$TARGETARCH" = "amd64" ]; then \
     fi
 
 # Stage 2: Runtime image
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-bookworm-slim
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble
 
 RUN apt update && apt install -y --no-install-recommends \
     curl \
@@ -116,8 +116,8 @@ RUN apt update && apt install -y --no-install-recommends \
     dos2unix \
     && rm -rf /var/lib/apt/lists/*
 
-ARG SPT_VERSION=4.0.13-40087-2891fd4
-ARG FIKA_VERSION=2.3.5
+ARG SPT_VERSION=4.1.5-40743-7d7add5
+ARG FIKA_VERSION=2.4.1
 ARG TARGETARCH
 ENV SPT_VERSION=$SPT_VERSION
 ENV FIKA_VERSION=$FIKA_VERSION

@@ -41,7 +41,7 @@ jobs:
 
           | SPT Server | Fika Server  |
           | ----------- | ------------ |
-          | [${SPT_VERSION}](https://github.com/sp-tarkov/server-csharp/releases/tag/${SPT_VERSION}) | [${{ steps.version.outputs.fika }}](https://github.com/project-fika/Fika-Server-CSharp/releases/tag/v${{ steps.version.outputs.fika }}) |
+          | [${SPT_VERSION}](https://github.com/SP-Tushonka/server-csharp/releases/tag/${SPT_VERSION}) | [${{ steps.version.outputs.fika }}](https://github.com/project-fika/Fika-Server-CSharp/releases/tag/v${{ steps.version.outputs.fika }}) |
           EOF
 
       - name: Create draft release

@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/aspnet:9.0-bookworm-slim
+FROM mcr.microsoft.com/dotnet/aspnet:10.0-noble
 
 RUN apt update && apt install -y --no-install-recommends \
     curl \
@@ -12,13 +12,13 @@ RUN apt update && apt install -y --no-install-recommends \
     jq \
     dos2unix
 
-ARG SPT_VERSION=4.0.13-40087-2891fd4
-ARG FIKA_VERSION=2.3.5
+ARG SPT_VERSION=4.1.5-40743-7d7add5
+ARG FIKA_VERSION=2.4.1
 ENV SPT_VERSION=$SPT_VERSION
 ENV FIKA_VERSION=$FIKA_VERSION
 
 WORKDIR /opt/build
-RUN curl -sL "https://spt-releases.modd.in/SPT-${SPT_VERSION}.7z" -o spt.7z
+RUN curl -sL "https://mirror.sp-tushonka.com/builds/SPT-${SPT_VERSION}.7z" -o spt.7z
 RUN 7zz x spt.7z
 
 COPY entrypoint.sh /usr/bin/entrypoint

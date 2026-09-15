@@ -9,7 +9,7 @@ gid=${GID:-1000}
 backup_dir_name=${BACKUP_DIR:-backups}
 backup_dir=$mounted_dir/$backup_dir_name
 
-spt_version=${SPT_VERSION:-4.0.13-40087-2891fd4}
+spt_version=${SPT_VERSION:-4.1.5-40743-7d7add5}
 spt_version=$(echo $spt_version | cut -d '-' -f 1)
 spt_backup_dir=$backup_dir/spt/$(date +%Y%m%dT%H%M)
 # if force spt version, ignore all version checks and disable user folder backup
@@ -23,7 +23,7 @@ spt_data_dir=$spt_dir/SPT_Data
 enable_spt_listen_on_all_networks=${LISTEN_ALL_NETWORKS:-false}
 
 
-fika_version=${FIKA_VERSION:-2.3.5}
+fika_version=${FIKA_VERSION:-2.4.1}
 fika_mode=${FIKA_MODE:-disabled}
 fika_backup_dir=$backup_dir/fika/$(date +%Y%m%dT%H%M)
 fika_config_path=assets/configs/fika.jsonc
@@ -283,8 +283,8 @@ install_spt() {
         cd ${mounted_dir}
         # check if archive already exists, and extract if so
         if [[ ! -f ${forced_spt_version_archive} ]]; then
-            echo "Downloading https://spt-releases.modd.in/SPT-${force_spt_version}.7z"
-            curl -sL "https://spt-releases.modd.in/SPT-${force_spt_version}.7z" -o ${forced_spt_version_archive}
+            echo "Downloading https://mirror.sp-tushonka.com/builds/SPT-${force_spt_version}.7z"
+            curl -sL "https://mirror.sp-tushonka.com/builds/SPT-${force_spt_version}.7z" -o ${forced_spt_version_archive}
             # Remove the server files, since databases tend to be different between versions
             rm -rf $spt_data_dir
             7zz x ${forced_spt_version_archive} -aoa
