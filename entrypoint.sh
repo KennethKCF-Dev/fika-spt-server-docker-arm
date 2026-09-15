@@ -236,7 +236,7 @@ install_fika_mod() {
     # Assumes fika_server.zip artifact contains user/mods/fika-server
     curl -sL $fika_release_url -O
     unzip -q $fika_artifact -d $mounted_dir/temp_fika/
-    mv $mounted_dir/temp_fika/SPT/user/mods/fika-server $spt_dir/user/mods/
+    mv $mounted_dir/temp_fika/SPT_Runtime/user/mods/fika-server $spt_dir/user/mods/
     rm -r $mounted_dir/temp_fika
     rm $fika_artifact
     echo "Installation complete"
