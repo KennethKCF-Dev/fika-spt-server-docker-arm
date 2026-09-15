@@ -140,7 +140,7 @@ validate() {
 
     if [[ -d $spt_data_dir ]]; then
         # Grab version from binary using exiftool
-        existing_spt_version=$(exiftool -s -s -s -ProductVersion $spt_dir/SPT.Server.dll | cut -d '-' -f 1)
+        existing_spt_version=$(exiftool -s -s -s -ProductVersion $spt_dir/SPT.Server.Linux.dll | cut -d '-' -f 1)
         if [[ -n ${force_spt_version} ]]; then
             # Force download SPT archive and install, do not backup or validate
             install_spt
