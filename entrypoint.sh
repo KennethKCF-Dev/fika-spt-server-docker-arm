@@ -156,18 +156,23 @@ validate() {
                 echo "Skipping Fika validation (FIKA_MODE=custom)"
                 ;;
             install|auto-update)
-                if [[ -f $fika_mod_dir/FikaServer.dll ]]; then
-                    fika_local_version=$(exiftool -s -s -s -ProductVersion $fika_mod_dir/FikaServer.dll)
-                fi
-                if [[ "$fika_local_version" != "$fika_version" ]]; then
-                    echo "Fika version mismatch: found:$fika_local_version != expected:$fika_version"
-                    if [[ "$fika_mode" == "auto-update" ]]; then
-                        echo "Auto-updating Fika version to $fika_version"
-                        try_update_fika
-                    else
-                        echo "Fika version mismatch detected. Set FIKA_MODE=auto-update to enable automatic updates."
-                        echo "Aborting"
-                        exit 1
+                # Only validate an existing install. If fika_mod_dir doesn't exist at all,
+                # there's nothing to back up/update - the "Run it All" section below handles
+                # a fresh install in that case.
+                if [[ -d $fika_mod_dir ]]; then
+                    if [[ -f $fika_mod_dir/FikaServer.dll ]]; then
+                        fika_local_version=$(exiftool -s -s -s -ProductVersion $fika_mod_dir/FikaServer.dll)
+                    fi
+                    if [[ "$fika_local_version" != "$fika_version" ]]; then
+                        echo "Fika version mismatch: found:$fika_local_version != expected:$fika_version"
+                        if [[ "$fika_mode" == "auto-update" ]]; then
+                            echo "Auto-updating Fika version to $fika_version"
+                            try_update_fika
+                        else
+                            echo "Fika version mismatch detected. Set FIKA_MODE=auto-update to enable automatic updates."
+                            echo "Aborting"
+                            exit 1
+                        fi
                     fi
                 fi
                 ;;
