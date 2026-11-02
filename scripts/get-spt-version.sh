@@ -19,7 +19,7 @@ get_latest_spt_version() {
     fi
 
     # Extract the download URL from release notes
-    # Format: https://mirror.sp-tushonka.com/builds/SPT-4.1.5-40743-7d7add5.7z
+    # Format: https://mirror.sp-tushonka.com/builds/SPT-4.1.6-40743-731d7a2.7z
     local download_url=$(echo "$release_body" | grep -oP 'https://mirror\.sp-tushonka\.com/builds/SPT-[0-9.]+-[0-9]+-[a-f0-9]+\.7z' | head -n1)
 
     if [ -z "$download_url" ]; then
@@ -30,7 +30,7 @@ get_latest_spt_version() {
     fi
 
     # Extract version string from URL
-    # From: https://mirror.sp-tushonka.com/builds/SPT-4.1.5-40743-7d7add5.7z
+    # From: https://mirror.sp-tushonka.com/builds/SPT-4.1.6-40743-731d7a2.7z
     # To: 4.1.5-40743-7d7add5
     local full_version=$(echo "$download_url" | sed -E 's|https://mirror\.sp-tushonka\.com/builds/SPT-||; s|\.7z$||')
 

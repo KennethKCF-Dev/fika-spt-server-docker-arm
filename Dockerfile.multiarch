@@ -5,7 +5,7 @@
 # Stage 1: Download pre-compiled binaries for AMD64 OR build from source for ARM64
 FROM mcr.microsoft.com/dotnet/sdk:10.0-noble AS builder
 
-ARG SPT_VERSION=4.1.5-40743-7d7add5
+ARG SPT_VERSION=4.1.6-40743-731d7a2
 ARG TARGETARCH
 ARG SPT_BUILD_TYPE=RELEASE
 ARG SPT_BUILD_CONFIG=Release
@@ -116,8 +116,8 @@ RUN apt update && apt install -y --no-install-recommends \
     dos2unix \
     && rm -rf /var/lib/apt/lists/*
 
-ARG SPT_VERSION=4.1.5-40743-7d7add5
-ARG FIKA_VERSION=2.4.1
+ARG SPT_VERSION=4.1.6-40743-731d7a2
+ARG FIKA_VERSION=2.4.2
 ARG TARGETARCH
 ENV SPT_VERSION=$SPT_VERSION
 ENV FIKA_VERSION=$FIKA_VERSION
